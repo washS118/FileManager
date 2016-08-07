@@ -1,9 +1,11 @@
 package com.gaulin.filemanager;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 /**
@@ -15,6 +17,8 @@ import java.io.IOException;
  *
  */
 public class AutoClosingManager extends FileManager {
+
+	private static final Exception IOException = null;
 
 	/**
 	 * DO NOT USE
@@ -29,14 +33,16 @@ public class AutoClosingManager extends FileManager {
 	/**
 	 * Returns a given line of a file
 	 * @param line the line to read
-	 * @return the line specified by parameter
+	 * @return the line specified by parameter.
+	 * returns null if line does not exist and sets currentReadLine to after the last file
 	 */
 	@Override
-	public String ReadLine(int line) {
+	public String ReadLine(int line){
 		OpenPrivateReader();
 		currentReadLine = 0;
 		String readLine = "";
 		try {
+			
 			readLine = reader.readLine();
 			currentReadLine++;
 			while(readLine != null && currentReadLine != line){
@@ -58,7 +64,7 @@ public class AutoClosingManager extends FileManager {
 	 * @return line
 	 */
 	@Override
-	public String ReadNextLine() {
+	public String ReadNextLine(){
 		return ReadLine(currentReadLine + 1);
 	}
 
@@ -98,8 +104,15 @@ public class AutoClosingManager extends FileManager {
 	 */
 	@Override
 	public void WriteLine(String line) {
-		// TODO Auto-generated method stub
-
+		try {
+			OpenPrivateWriter();
+			writer.newLine();
+			writer.write(line);
+			ClosePrivateWriter();
+		} catch (java.io.IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -134,15 +147,29 @@ public class AutoClosingManager extends FileManager {
 	}
 	
 	private void ClosePrivateReader(){
-		//TODO
+		try {
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void OpenPrivateWriter(){
-		//TODO
+		FileWriter fileWriter;
+		try{
+			fileWriter = new FileWriter(writeFile, true);
+			writer = new BufferedWriter(fileWriter);
+		}catch(IOException e){
+			e.printStackTrace();
+		}
 	}
 	
 	private void ClosePrivateWriter(){
-		//TODO
+		try {
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
