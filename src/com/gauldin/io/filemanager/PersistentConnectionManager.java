@@ -1,94 +1,63 @@
 package com.gauldin.io.filemanager;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class PersistentConnectionManager extends FileManager {
-
-	public PersistentConnectionManager(){
-		
-	}
-	
-	public PersistentConnectionManager(String file){
-		SetReadFile(file);
-		SetWriteFile(file);
-	}
-	
-	public PersistentConnectionManager(String readFile, String writeFile){
-		SetReadFile(readFile);
-		SetWriteFile(writeFile);
-	}
 	
 	/**
 	 * Opens a File Reader class allowing the user to
 	 * access data from files.
+	 * @throws FileNotFoundException 
 	 */
 	@Override
-	public void OpenReader() {
-		FileReader fileReader;
-		try {
-			fileReader = new FileReader(readFile);
-			reader = new BufferedReader(fileReader);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}		
+	public void OpenReader() throws FileNotFoundException {
+		FileReader fileReader = new FileReader(readFile);
+		reader = new BufferedReader(fileReader);		
 	}
 
 	/**
 	 * Reads the data at the specified line;
 	 * @param line
 	 * @return
+	 * @throws IOException 
 	 */
 	@Override
-	public String ReadLine(int line) {
+	public String ReadLine(int line) throws IOException {
 		currentReadLine = 0;
-		String readLine = "";
-		try {
-			
+		String readLine = reader.readLine();
+		currentReadLine++;
+		while(readLine != null && currentReadLine != line){
 			readLine = reader.readLine();
 			currentReadLine++;
-			while(readLine != null && currentReadLine != line){
-				readLine = reader.readLine();
-				currentReadLine++;
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-			readLine = "";
-		}
-		
+		}		
 		return readLine;
 	}
 
 	/**
 	 * Reads the data at the next line of the file
 	 * @return
+	 * @throws IOException 
 	 */
 	@Override
-	public String ReadNextLine() {
-		String readLine = "";
-		try {
-			currentReadLine++;
-			readLine = reader.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public String ReadNextLine() throws IOException {
+		currentReadLine++;
+		String readLine = reader.readLine();
 		return readLine;
 	}
 
 	/**
 	 * Closes the reader
+	 * @throws IOException 
 	 */
 	@Override
-	public void CloseReader() {
-		try {
-			reader.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
+	public void CloseReader() throws IOException {
+		reader.close();
 	}
 
 	/**
@@ -100,24 +69,38 @@ public class PersistentConnectionManager extends FileManager {
 		readFile = new File(filename);
 	}
 
+	/**
+	 * Opens a file writer
+	 * @throws IOException 
+	 */
 	@Override
-	public void OpenWriter() {
-		// TODO Auto-generated method stub
-
+	public void OpenWriter() throws IOException{
+		FileWriter fileWriter = new FileWriter(writeFile, true);
+		writer = new BufferedWriter(fileWriter);
 	}
 
+	/**
+	 * Writes a line to the file
+	 * @throws IOException 
+	 */
 	@Override
-	public void WriteLine(String line) {
-		// TODO Auto-generated method stub
-
+	public void WriteLine(String line) throws IOException {
+		writer.write(line);
+		writer.newLine();
 	}
 
+	/**
+	 * Closes the file writer
+	 * @throws IOException 
+	 */
 	@Override
-	public void CloseWriter() {
-		// TODO Auto-generated method stub
-
+	public void CloseWriter() throws IOException {
+		writer.close();
 	}
 
+	/**
+	 * Sets the target writer wile
+	 */
 	@Override
 	public void SetWriteFile(String filename) {
 		writeFile = new File(filename);
