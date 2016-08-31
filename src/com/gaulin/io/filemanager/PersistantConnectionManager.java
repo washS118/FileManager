@@ -1,4 +1,4 @@
-package com.gaulin.filemanager;
+package com.gaulin.io.filemanager;
 
 import java.io.File;
 
