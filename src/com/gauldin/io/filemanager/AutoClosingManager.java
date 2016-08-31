@@ -17,8 +17,7 @@ import java.io.IOException;
  *
  */
 public class AutoClosingManager extends FileManager {
-
-
+	
 	/**
 	 * DO NOT USE
 	 * Prints an error message to the console.
@@ -34,26 +33,19 @@ public class AutoClosingManager extends FileManager {
 	 * @param line the line to read
 	 * @return the line specified by parameter.
 	 * returns null if line does not exist and sets currentReadLine to after the last file
+	 * @throws IOException 
 	 */
 	@Override
-	public String ReadLine(int line){
+	public String ReadLine(int line) throws IOException{
 		OpenPrivateReader();
 		currentReadLine = 0;
-		String readLine = "";
-		try {
-			
+		String readLine = reader.readLine();
+		currentReadLine++;
+		while(readLine != null && currentReadLine != line){
 			readLine = reader.readLine();
 			currentReadLine++;
-			while(readLine != null && currentReadLine != line){
-				readLine = reader.readLine();
-				currentReadLine++;
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-			readLine = "";
-		} finally{
-			ClosePrivateReader();
 		}
+		ClosePrivateReader();
 		
 		return readLine;
 	}
@@ -61,9 +53,10 @@ public class AutoClosingManager extends FileManager {
 	/**
 	 * Reads the next line in the file.
 	 * @return line
+	 * @throws IOException 
 	 */
 	@Override
-	public String ReadNextLine(){
+	public String ReadNextLine() throws IOException{
 		return ReadLine(currentReadLine + 1);
 	}
 
@@ -100,18 +93,14 @@ public class AutoClosingManager extends FileManager {
 	 * Writes a string of text to a new line.
 	 * 
 	 * @param line The string to write to the file.
+	 * @throws IOException 
 	 */
 	@Override
-	public void WriteLine(String line) {
-		try {
-			OpenPrivateWriter();
-			writer.newLine();
-			writer.write(line);
-			ClosePrivateWriter();
-		} catch (java.io.IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void WriteLine(String line) throws IOException {
+		OpenPrivateWriter();
+		writer.newLine();
+		writer.write(line);
+		ClosePrivateWriter();
 	}
 
 	/**
@@ -134,41 +123,22 @@ public class AutoClosingManager extends FileManager {
 		writeFile = new File(filename);
 	}
 	
-	private void OpenPrivateReader(){
-		FileReader fileReader;
-		try {
-			fileReader = new FileReader(readFile);
-			reader = new BufferedReader(fileReader);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		
+	private void OpenPrivateReader() throws FileNotFoundException{
+		FileReader fileReader = new FileReader(readFile);
+		reader = new BufferedReader(fileReader);		
 	}
 	
-	private void ClosePrivateReader(){
-		try {
-			reader.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	private void ClosePrivateReader() throws IOException{
+		reader.close();
 	}
 	
-	private void OpenPrivateWriter(){
-		FileWriter fileWriter;
-		try{
-			fileWriter = new FileWriter(writeFile, true);
-			writer = new BufferedWriter(fileWriter);
-		}catch(IOException e){
-			e.printStackTrace();
-		}
+	private void OpenPrivateWriter() throws IOException{
+		FileWriter fileWriter = new FileWriter(writeFile, true);
+		writer = new BufferedWriter(fileWriter);
 	}
 	
-	private void ClosePrivateWriter(){
-		try {
-			writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	private void ClosePrivateWriter() throws IOException{
+		writer.close();
 	}
 
 }
