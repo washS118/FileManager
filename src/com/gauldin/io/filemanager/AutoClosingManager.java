@@ -1,4 +1,4 @@
-package com.gaulin.filemanager;
+package com.gauldin.io.filemanager;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -18,7 +18,6 @@ import java.io.IOException;
  */
 public class AutoClosingManager extends FileManager {
 
-	private static final Exception IOException = null;
 
 	/**
 	 * DO NOT USE

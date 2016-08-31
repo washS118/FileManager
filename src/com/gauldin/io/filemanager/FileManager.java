@@ -1,4 +1,4 @@
-package com.gaulin.filemanager;
+package com.gauldin.io.filemanager;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
