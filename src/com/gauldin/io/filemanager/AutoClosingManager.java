@@ -18,7 +18,20 @@ import java.io.IOException;
  */
 public class AutoClosingManager extends FileManager {
 
-
+	public AutoClosingManager(){
+		
+	}
+	
+	public AutoClosingManager(String file){
+		SetReadFile(file);
+		SetWriteFile(file);
+	}
+	
+	public AutoClosingManager(String readFile, String writeFile){
+		SetReadFile(readFile);
+		SetWriteFile(writeFile);
+	}
+	
 	/**
 	 * DO NOT USE
 	 * Prints an error message to the console.

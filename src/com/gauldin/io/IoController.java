@@ -2,7 +2,7 @@ package com.gauldin.io;
 
 import com.gauldin.io.filemanager.AutoClosingManager;
 import com.gauldin.io.filemanager.FileManager;
-import com.gauldin.io.filemanager.PersistantConnectionManager;
+import com.gauldin.io.filemanager.PersistentConnectionManager;
 
 /**
  * 
@@ -16,8 +16,8 @@ public class IoController {
 		return new AutoClosingManager();
 	}
 	
-	public static FileManager GetPersistantConnectionManager(){
-		return new PersistantConnectionManager();
+	public static FileManager GetPersistentConnectionManager(){
+		return new PersistentConnectionManager();
 	}
 	
 }
