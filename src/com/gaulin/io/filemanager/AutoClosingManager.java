@@ -18,8 +18,6 @@ import java.io.IOException;
  */
 public class AutoClosingManager extends FileManager {
 
-	private static final Exception IOException = null;
-
 	/**
 	 * DO NOT USE
 	 * Prints an error message to the console.
