@@ -1,11 +1,8 @@
 package com.gauldin.io;
 
-//Data Types
-import com.gaulin.io.filemanager.FileManager;
-
-//Managers
-import com.gaulin.io.filemanager.AutoClosingManager;
-import com.gaulin.io.filemanager.PersistantConnectionManager;
+import com.gauldin.io.filemanager.AutoClosingManager;
+import com.gauldin.io.filemanager.FileManager;
+import com.gauldin.io.filemanager.PersistantConnectionManager;
 
 /**
  * 
